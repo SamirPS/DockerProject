@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Acceuil</title>
+</head>
+<body>
+
+<form method="POST">
+    <select multiple name=specialite id=spe>
+        {% for spe in special %}
+        <option value= "{{spe}}" SELECTED>{{spe}}</option>"
+        {% endfor %}
+    </select>
+
+    <select name=annee id=annee>
+        {% for ann in ["3/2","5/2"] %}
+        <option value= "{{ann}}" SELECTED>{{ann}}</option>"
+        {% endfor %}
+    </select>
+
+    <select name=alternance id=alt>
+        {% for alt in ["Oui","Non","Peu importe"] %}
+        <option value= "{{alt}}" SELECTED>{{alt}}</option>"
+        {% endfor %}
+    </select>
+    
+    <select multiple name=region id=region>
+        {% for reg in region %}
+        <option value= "{{reg}}" SELECTED>{{reg}}</option>"
+        {% endfor %}
+    </select>
+    
+    <select multiple name=concours id=admission>
+        {% for con in concours %}
+        <option value= "{{con}}" SELECTED>{{con}}</option>"
+        {% endfor %}
+    </select>
+    <br>
+    <label for="fname">Maths</label><br>
+    <input id="math" required step='0.01' type="number" name="maths" min="0" max="20" >
+    <br>
+    <label for="fname">Physique</label><br>
+    <input id="phy" required step='0.01' type="number" name="physique" min="0" max="20">
+    <br>
+    <label for="fname">SI</label><br>
+    <input id="si" required step='0.01' type="number" name="si" min="0" max="20">
+    <br>
+    <label for="fname">Informatique</label><br>
+    <input id="info" required step='0.01' type="number" name="informatique" min="0" max="20">
+    <br>
+    <label for="fname">Anglais:</label><br>
+    <input id="an" required step='0.01' type="number" name="anglais" min="0" max="20">
+    <br>
+    <label for="fname">Francais</label><br>
+    <input id="fr" required step='0.01' type="number" name="francais" min="0" max="20" >
+    <br>
+    <label for="fname">Modélisation</label><br>
+    <input id="mode" required step='0.01' type="number" name="modelisation" min="0" max="20">
+    <br>
+    <input type="submit">
+</form>
+
+
+</select>
+</body>
+</html>

@@ -1,0 +1,22 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Affichage</title>
+</head>
+<body>
+    {% if ecole!=[] %}
+        {% for i in ecole %}
+        <label for="fname">{{i}}</label><br>
+        {% endfor %}
+        
+    {% else %}
+    <label for="fname">Pas d'école trouvé</label><br>
+    {% endif %}
+    
+
+</select>
+</body>
+</html>

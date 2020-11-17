@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Suggestions</title>
+</head>
+
+<body>
+
+<select id=search_form_input>
+    {% for eco in ecole %}
+    <option value= "{{eco}}" >{{eco}}</option>"
+    {% endfor %}
+</select>
+
+<div id="place_for_suggestions"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script>
+$("#search_form_input").click(function(){
+    var text = $(this).val();
+
+    $.ajax({
+      url: "/suggestions",
+      type: "get",
+      data: {jsdata: text},
+      success: function(response) {
+        $("#place_for_suggestions").html(response);
+      },
+      error: function(xhr) {
+        //Do Something to handle error
+      }
+    });
+});
+</script>
+
+</body>
+
+</html>

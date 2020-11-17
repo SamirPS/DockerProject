@@ -1,0 +1,14 @@
+<form action="/suggestions" method="post">
+    <select name=specialite id=spe>
+        {% for sug in suggestions %}
+        <option value= "{{sug}}" >{{sug}}</option>"
+        {% endfor %}
+    </select>
+    <input id="ecole" name="ecole" type="hidden" value="{{text}}">
+    <select name=alternance id=alt>
+        {% for alt in ["Oui","Non","Peu importe"] %}
+        <option value= "{{alt}}" >{{alt}}</option>"
+        {% endfor %}
+    </select>
+    <input type="submit">
+</form>
