@@ -12,7 +12,7 @@ connexion =  psycopg2.connect(user = "postgres",
                                 host="db",
                                 port=5432,
                                 password="test",
-                                database = "test")
+                                database = "postgres")
 curseur = connexion.cursor()
 
 
