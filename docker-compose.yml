@@ -37,11 +37,18 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  redis:
+    image: redis
+    volumes:
+      - redis-data:/data
+
 volumes:
   mongodbdata:
     driver: local
   appdata:
     driver: local
   pgdata:
+    driver: local
+  redis-data:
     driver: local
 
