@@ -3,19 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>Accueil</title>
+    <style>
+    div.absolute {
+        position: absolute;
+        top: 40px;
+        right: 80px;
+        margin-right: 150px;
+      }
+    
+    </style>
 </head>
 <body>
 
 <form method="POST">
-        <select multiple name=specialite id=spe>
-            <option value="" selected disabled hidden>Spécialité</option>
+    <div class="absolute">
+        <div class="unselected-field" style="display:block;" id="selectCountry">
+            <label>Specialité&nbsp;&nbsp;
+            </label>
+                <label>Année:&nbsp;&nbsp;&nbsp;&nbsp;
+                </label>
+                <label>Alternance:&nbsp;&nbsp;
+                </label>
+                <label>Région:&nbsp;&nbsp
+                </label>
+                <label>Concours
+                </label>
+        </div>
+        
+            <select multiple name=specialite id=spe>
             {% for spe in special %}
             <option value= "{{spe}}" SELECTED>{{spe}}</option>"
             {% endfor %}
         </select>
 
         <select name=annee id=annee>
-            <option value="" selected disabled hidden>Année</option>
             {% for ann in ["3/2","5/2"] %}
             <option value= "{{ann}}" SELECTED>{{ann}}</option>"
             {% endfor %}
@@ -24,7 +45,6 @@
         
 
         <select name=alternance id=alt>
-            <option value="" selected disabled hidden>Alternance</option>
             {% for alt in ["Oui","Non","Peu importe"] %}
             <option value= "{{alt}}" SELECTED>{{alt}}</option>"
             {% endfor %}
@@ -32,18 +52,17 @@
         
 
         <select multiple name=region id=region>
-            <option value="" selected disabled hidden>Région</option>
             {% for reg in region %}
             <option value= "{{reg}}" SELECTED>{{reg}}</option>"
             {% endfor %}
         </select>
 
         <select multiple name=concours id=admission>
-            <option value="" selected disabled hidden>Concours</option>
             {% for con in concours %}
             <option value= "{{con}}" SELECTED>{{con}}</option>"
             {% endfor %}
         </select> 
+        </div>
     <br>
     <label for="fname">Maths</label><br>
     <input id="math" required step='0.01' type="number" name="maths" min="0" max="20" >
