@@ -1,25 +1,41 @@
-
-
 <!DOCTYPE html>
-<html lang="en">
+
+<html>
+
 <head>
-    <meta charset="UTF-8">
     <title>Affichage</title>
 </head>
-<body>
-    <p><a href="/">Retour</a></p>
-    {% if ecole!=[] %}
-        {% for i in ecole %}
-        <label for="fname">{{i}}</label><br>
-        {% endfor %}
-        
-    {% else %}
-    <label for="fname">Pas d'école trouvé</label><br>
-    {% endif %}
-    
 
+<body>
+  <p><a href="/">Retour</a></p>
+<select multiple id=search_form_input>
+    {% for eco in ecole %}
+    <option value= "{{eco}}" >{{eco}}</option>"
+    {% endfor %}
 </select>
+
+<div id="place_for_suggestions"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script>
+$("#search_form_input").click(function(){
+    var text = $(this).val();
+    $.ajax({
+      url: "/prix",
+      type: "get",
+      data: {jsdata: text.toString()},
+      success: function(response) {
+        $("#place_for_suggestions").html(response);
+      },
+      error: function(xhr) {
+        //Do Something to handle error
+      }
+    });
+});
+</script>
 
 
 </body>
+
 </html>

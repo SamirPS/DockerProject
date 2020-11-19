@@ -78,6 +78,21 @@ def addecolespe(alt,ecole,spe):
 def creationtuple(liste):   
     return tuple(liste)
 
+def prix_ecole(ecoles, filtre):
+    prix = 0
+    groupe=[]
+    for i in ecoles:
+        curseur.execute("SELECT Groupe FROM EcoleS WHERE Acronyme=%s ",(i,))
+        for resultat in curseur.fetchall():
+            groupe.append(resultat[0])
+            
+    for i in list(set(groupe)):
+        curseur.execute(f"SELECT  {filtre} FROM Coefficient WHERE Groupe=%s",(i,))
+        for resultat in curseur.fetchall():
+            prix += resultat[0]
+
+    return prix
+
 def filtre(choix_utilisateur, notes):
     conds = []
 

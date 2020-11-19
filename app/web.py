@@ -78,6 +78,14 @@ def my_form_post():
     
     return render_template('affichage.html', ecole=ecolesdef)
 
+@app.route('/prix',methods=['GET'])
+def prix():
+    text = request.args.get('jsdata').split(",")
+    prixboursier=main.prix_ecole(text,"Boursier")
+    prixnonboursier=main.prix_ecole(text,"NonBoursier")
+
+    return render_template('prix.html', prixb=prixboursier,prixnb=prixnonboursier)
+
 @app.route('/add', methods=['GET'])
 def addspe():
     return render_template('addspe.html')
