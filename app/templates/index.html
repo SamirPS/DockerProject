@@ -27,14 +27,14 @@
                 {% endfor %}
           </select>
 
-          <select class="custom-select" multiple name=annee id=annee size="3" required >
+          <select class="custom-select"  name=annee id=annee size="3" required >
             <option selected >Année</option>
             {% for ann in ["3/2","5/2"] %}
             <option value= "{{ann}}" SELECTED>{{ann}}</option>"
             {% endfor %}
           </select>
         
-          <select class="custom-select" multiple name=alternance id=alt size="3" required>
+          <select class="custom-select"  name=alternance id=alt size="3" required>
             <option selected >Alternance</option>
             {% for alt in ["Oui","Non","Peu importe"] %}
             <option value= "{{alt}}" SELECTED>{{alt}}</option>"
