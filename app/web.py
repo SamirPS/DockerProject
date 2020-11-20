@@ -86,7 +86,7 @@ def prix():
 
     return render_template('prix.html', prixb=prixboursier,prixnb=prixnonboursier)
 
-@app.route('/add')
+@app.route('/add',methods=['GET', 'POST'])
 def addspe():
     if request.method=="POST":
         addspec=request.form['namespe']
@@ -125,7 +125,7 @@ def index():
     return render_template('addecole.html',ecole=ecolesdef)
 
 
-@app.route('/suggestions')
+@app.route('/suggestions',methods=['GET', 'POST'])
 def suggestions():
     if request.method=="POST":
         spe = request.form.getlist('specialite')
@@ -161,7 +161,7 @@ def suggestions():
 
     
 
-@app.route('/addsug')
+@app.route('/addsug',methods=['GET', 'POST'])
 def addsug():
     if request.method=="POST":
             return str(mongodb.add(request.form['text'],request.form['Nom'],request.form['prenom']))
