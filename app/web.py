@@ -86,21 +86,19 @@ def prix():
 
     return render_template('prix.html', prixb=prixboursier,prixnb=prixnonboursier)
 
-@app.route('/add', methods=['GET'])
+@app.route('/add')
 def addspe():
+    if request.method=="POST":
+        addspec=request.form['namespe']
+        specialite=main.renvoie_specialites()
+        if addspec in specialite:
+            return "False"
+    
+        return main.addspe(addspec)
+
     return render_template('addspe.html')
 
-@app.route('/add', methods=['POST'])
-def addspepost():
-    addspec=request.form['namespe']
-    specialite=main.renvoie_specialites()
-    if addspec in specialite:
-        return "False"
-    
-    return main.addspe(addspec)
-
-
-
+   
 @app.route('/addspeecole')
 def index():
     choix_utilisateur={"specialites":None,
@@ -127,8 +125,15 @@ def index():
     return render_template('addecole.html',ecole=ecolesdef)
 
 
-@app.route('/suggestions',methods=['GET'])
+@app.route('/suggestions')
 def suggestions():
+    if request.method=="POST":
+        spe = request.form.getlist('specialite')
+        spe=main.renvoie_idspe(spe)
+        ecole = request.form.getlist('ecole')
+        alt = request.form.getlist('alternance')
+        return main.addecolespe(alt,ecole,spe)
+    
     text = request.args.get('jsdata')
 
     spe = []
@@ -153,23 +158,15 @@ def suggestions():
 
     return render_template('suggestions.html', suggestions=spedefinitif,text=text)
 
-@app.route('/suggestions',methods=['POST'])
-def addspeecole():
-    spe = request.form.getlist('specialite')
 
-    spe=main.renvoie_idspe(spe)
-    ecole = request.form.getlist('ecole')
-    alt = request.form.getlist('alternance')
+    
 
-    return main.addecolespe(alt,ecole,spe)
-
-@app.route('/addsug',methods=['GET'])
+@app.route('/addsug')
 def addsug():
+    if request.method=="POST":
+            return str(mongodb.add(request.form['text'],request.form['Nom'],request.form['prenom']))
     return render_template("addsug.html")
 
-@app.route('/addsug',methods=['POST'])
-def addsugadd():
-    return str(mongodb.add(request.form['text'],request.form['Nom'],request.form['prenom']))
 
 
 if __name__ == "__main__":
