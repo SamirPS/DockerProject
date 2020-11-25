@@ -14,7 +14,11 @@ now go  http://localhost:5000.
 
 ## Project structure
 
-This project uses three Docker containers : a **python3** container with a Flask app, a **postgresql** container, a **redis** container and a **mongodb** container.
+This project uses : 
+* **python3** container for the  Flask app.
+* **postgresql** container. 
+* **redis** container. 
+* **mongodb** container.
 
 The postgres database allows to store all the data of the schools for example their specialties and prices. We also have access to the different competition coefficients for each school.
 
