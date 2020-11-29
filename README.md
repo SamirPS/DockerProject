@@ -1,6 +1,6 @@
 # DockerProject
 
-DockerProject is a site allowing to know the schools that you can have in CPGE with your grades and personal choices (region, contest,...).
+DockerProject is a site allowing to know the schools that you can have in CPGE with your grades and personal choices (region, contest,...).The first user registred via the web interface is a admin of the website 
 
 ## Set up
 
