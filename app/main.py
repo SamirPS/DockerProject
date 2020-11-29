@@ -5,6 +5,10 @@ Created on Sat Oct 20 19:41:49 2018
 @author: samir
 """
 
+
+
+
+
 import psycopg2
 
 

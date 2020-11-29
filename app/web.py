@@ -1,7 +1,105 @@
-from flask import Flask, render_template,request
+from flask import Flask, session, redirect, url_for, request,render_template
 import main
-import mongodb
+import redissug
+
 app = Flask(__name__)
+
+
+from pymongo import MongoClient
+client = MongoClient(host='mongodb',port=27017,username='root',password='example')
+db=client.users
+
+
+
+def exist(pseudo):
+    check ={ 
+            "pseudo":pseudo
+            } 
+    return db.base.find(check).count()>=1
+
+def checkadmin(pseudo,password):
+    check = { 
+            "pseudo":pseudo, 
+            "password":password,
+            }
+    if db.base.find(check).count()>=1:
+        test = db.base.find(check)
+        for x in test:
+            return int(x["admin"])==1
+    return False
+
+
+@app.errorhandler(404) 
+def invalid_route(e): 
+    return redirect(url_for("login",url="accueil"))
+
+@app.route("/admin",methods=['GET','POST'])
+def ajoutadmin():
+    if 'username' in session and 'password' in session:
+
+        if request.method=="POST":
+            achanger=request.form.getlist('admin')
+            for i in achanger:
+                myquery = { "pseudo": i }
+                newvalues = { "$set": { "admin": 1 } }
+                db.base.update_one(myquery, newvalues)
+        L=[]
+        checkadmin = {  
+                "admin":0,
+                }
+        test = db.base.find(checkadmin)
+        for x in test:
+                L.append(x["pseudo"])
+
+        return render_template('admin.html', notadmin=L)
+
+    return redirect(url_for("login",url="ajoutadmin"))
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        if exist(request.form["username"]) == False:
+            return redirect(url_for('login',url = "accueil"))
+        if checkadmin(request.form["username"],request.form['password'])==False:
+            return "Vous n'etes pas admin"
+        session['username'] = request.form['username']
+        session['password'] = request.form['password']
+        return redirect(url_for(request.args.get('url')))
+    return '''
+        <form method="post">
+            <p>username  <input type=text name=username>
+            <p>password  <input type=password name=password>
+            <p><input type=submit value=Login>
+        </form>
+    '''
+
+@app.route('/singin', methods=['GET', 'POST'])
+def inscrire():
+    if request.method == 'POST':
+        if exist(request.form["username"]):
+            return "l'utilisateur est deja existant"
+
+        
+        if db.base.find().count()==0:
+            adminid=1
+        else:
+            adminid=0
+
+        user = {
+            "pseudo": request.form["username"],
+            "password" : request.form["password"],
+            "admin" : adminid
+        }
+        db.base.insert_one(user)
+        return redirect(url_for('login', url = "accueil"))
+
+    return '''
+        <form method="post">
+            <p>username  <input type=text name=username>
+            <p>password  <input type=password name=password>
+            <p><input type=submit value=confirm>
+        </form>
+    '''
 
 
 @app.route('/', methods=['GET'])
@@ -88,41 +186,50 @@ def prix():
 
 @app.route('/add',methods=['GET', 'POST'])
 def addspe():
-    if request.method=="POST":
-        addspec=request.form['namespe']
-        specialite=main.renvoie_specialites()
-        if addspec in specialite:
-            return "False"
-    
-        return main.addspe(addspec)
+    if 'username' in session and 'password' in session:
 
-    return render_template('addspe.html')
+        if request.method=="POST":
+            addspec=request.form['namespe']
+            specialite=main.renvoie_specialites()
+            if addspec in specialite:
+                return "False"
+        
+            return main.addspe(addspec)
+
+        return render_template('addspe.html')
+    return redirect(url_for("login",url="addspe"))
+
+    
 
    
 @app.route('/addspeecole')
-def index():
-    choix_utilisateur={"specialites":None,
-                        "alternance":None,
-                        "concours":None,
-                        "regions":None,
-                        "annee":None}
+def indexs():
+    if 'username' in session and 'password' in session:
+        choix_utilisateur={"specialites":None,
+                            "alternance":None,
+                            "concours":None,
+                            "regions":None,
+                            "annee":None}
 
-    notes={"maths":20,
-            "physique":20,
-            "si":20,
-            "informatique":20,
-            "anglais":20,
-            "francais":20,
-            "modelisation":20}
+        notes={"maths":20,
+                "physique":20,
+                "si":20,
+                "informatique":20,
+                "anglais":20,
+                "francais":20,
+                "modelisation":20}
 
-    ecole=main.filtre(choix_utilisateur,notes)
-    ecolesdef=[]
+        ecole=main.filtre(choix_utilisateur,notes)
+        ecolesdef=[]
 
-    for eco in ecole:
-        if eco[5] not in ecolesdef:
-            ecolesdef.append(eco[5])
-    
-    return render_template('addecole.html',ecole=ecolesdef)
+        for eco in ecole:
+            if eco[5] not in ecolesdef:
+                ecolesdef.append(eco[5])
+
+        return render_template('addecole.html',ecole=ecolesdef)
+    return redirect(url_for("login",url="indexs"))
+
+
 
 
 @app.route('/suggestions',methods=['GET', 'POST'])
@@ -164,8 +271,15 @@ def suggestions():
 @app.route('/addsug',methods=['GET', 'POST'])
 def addsug():
     if request.method=="POST":
-            return str(mongodb.add(request.form['text'],request.form['Nom'],request.form['prenom']))
+            return str(redissug.add(request.form['text'],request.form['Nom'],request.form['prenom']))
     return render_template("addsug.html")
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for("accueil"))
+
+app.secret_key = 'Cestvraimentpassecret'
 
 
 

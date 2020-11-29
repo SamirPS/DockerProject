@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+
+<form method="POST">
+          <select class="custom-select" multiple name=admin id=adminid>
+            {% for people in notadmin %}
+            <option value= "{{people}}" SELECTED>{{people}}</option>"
+            {% endfor %}
+          </select>
+
+    <input type="submit">
+
+</form>
+<p><a href="/">Retour</a></p>
+
+
+
+
+
+
+</select>
+</body>
+</html>
