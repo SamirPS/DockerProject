@@ -22,7 +22,9 @@ This project uses :
 
 The postgres database allows to store all the data of the schools for example their specialties and prices. We also have access to the different competition coefficients for each school.
 
-Redis and mongodb allows me to retrieve the suggestions that the user can send.
+Redis  allows me to retrieve the suggestions that the user can send.
+
+Mongodb store the user account
 
 All the data of database is persistant
 
