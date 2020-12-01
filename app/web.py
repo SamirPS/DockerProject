@@ -94,7 +94,7 @@ def inscrire():
             "admin" : adminid
         }
         db.base.insert_one(user)
-        return redirect(url_for('login', url = "accueil"))
+        return redirect(url_for('accueil'))
 
     return '''
         <form method="post">
