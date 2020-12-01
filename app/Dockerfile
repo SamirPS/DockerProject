@@ -8,7 +8,5 @@ WORKDIR /var/www/
 ADD . /var/www/
 RUN pip install -r lib.txt
 
-EXPOSE 5000
-EXPOSE 5432
 
 CMD [ "python", "web.py"]

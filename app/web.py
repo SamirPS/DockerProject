@@ -1,6 +1,8 @@
 from flask import Flask, session, redirect, url_for, request,render_template
 import main
 import redissug
+import hashlib
+
 
 app = Flask(__name__)
 
@@ -18,9 +20,10 @@ def exist(pseudo):
     return db.base.find(check).count()>=1
 
 def checkadmin(pseudo,password):
+
     check = { 
             "pseudo":pseudo, 
-            "password":password,
+            "password":hashlib.sha256(password.encode()).hexdigest(),
             }
     if db.base.find(check).count()>=1:
         test = db.base.find(check)
@@ -87,7 +90,7 @@ def inscrire():
 
         user = {
             "pseudo": request.form["username"],
-            "password" : request.form["password"],
+            "password" : hashlib.sha256(request.form["password"].encode()).hexdigest(),
             "admin" : adminid
         }
         db.base.insert_one(user)
