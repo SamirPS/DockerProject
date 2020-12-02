@@ -18,6 +18,8 @@ services:
   mongodb:
     image: mongo
     restart: unless-stopped
+    container_name: mongodb
+
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
@@ -29,6 +31,7 @@ services:
   db:
     image: postgres
     restart: unless-stopped
+    container_name: db
     build:
       context: db
       dockerfile: Dockerfile
@@ -38,6 +41,7 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   redis:
+    container_name: redis
     image: redis
     volumes:
       - redis-data:/data
